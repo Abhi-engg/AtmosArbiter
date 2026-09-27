@@ -5,6 +5,7 @@
 **Department:** National Centre for Medium Range Weather Forecasting (NCMRWF)  
 **Project Name:** **AtmosArbiter** (Hybrid AI–NWP Multi-Model Forecast Blending System)  
 **Team Name:** MidNightCrew  
+**Video Pitch / Demo Link:** https://www.youtube.com/watch?v=6UzICC_AD7Q  
 
 ---
 
