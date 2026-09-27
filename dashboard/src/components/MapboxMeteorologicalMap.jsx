@@ -43,11 +43,12 @@ export default function MapboxMeteorologicalMap({
   const mapRef = useRef(null);
   const markersRef = useRef([]);
 
-  // Check if Mapbox token is provided in environment, otherwise use open light style
+  // Set Mapbox token securely from environment (.env)
   const mapboxToken = import.meta.env.VITE_MAPBOX_TOKEN || '';
   if (mapboxToken) {
     mapboxgl.accessToken = mapboxToken;
   }
+
 
   // Initial Mapbox GL setup
   useEffect(() => {
@@ -67,7 +68,9 @@ export default function MapboxMeteorologicalMap({
       center: initialCenter,
       zoom: initialZoom,
       attributionControl: !isMini,
+
     });
+
 
     if (!isMini) {
       map.addControl(new mapboxgl.NavigationControl({ showCompass: true }), 'top-right');
