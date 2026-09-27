@@ -4,6 +4,7 @@ import LeadTimeBar from './components/LeadTimeBar';
 import ModelComparisonQuad from './components/ModelComparisonQuad';
 import MeteorologicalMap from './components/MeteorologicalMap';
 import MapboxMeteorologicalMap from './components/MapboxMeteorologicalMap';
+import WPGoMap from './components/WPGoMap';
 import ClearCastInspector from './components/ClearCastInspector';
 import CommercialImpactBar from './components/CommercialImpactBar';
 import ThermoCheckModal from './components/ThermoCheckModal';
@@ -14,10 +15,11 @@ import { BookOpen, ShieldCheck, MapPin } from 'lucide-react';
 export default function App() {
   const [activeScenario, setActiveScenario] = useState(SCENARIOS[0]);
   const [selectedLeadTime, setSelectedLeadTime] = useState(24);
-  const [viewMode, setViewMode] = useState('focus'); // Default to focus view to showcase Mapbox!
-  const [mapEngine, setMapEngine] = useState('mapbox'); // 'mapbox' or 'canvas'
+  const [viewMode, setViewMode] = useState('focus');
+  const [mapEngine, setMapEngine] = useState('wpgmza'); // Default to WP Go Maps everywhere!
   const [selectedDistrict, setSelectedDistrict] = useState(DISTRICT_STATIONS[0]);
   const [focusModelKey, setFocusModelKey] = useState('atmos');
+
 
 
   const [isThermoCheckOpen, setIsThermoCheckOpen] = useState(false);
@@ -86,6 +88,7 @@ export default function App() {
               selectedDistrict={selectedDistrict}
               onSelectDistrict={setSelectedDistrict}
               leadTimeHours={selectedLeadTime}
+              mapEngine={mapEngine}
             />
 
             <ClearCastInspector
@@ -106,6 +109,16 @@ export default function App() {
                 <div className="flex items-center gap-1.5">
                   <span className="text-[11px] font-mono text-slate-500 uppercase pl-1">Engine:</span>
                   <div className="flex rounded-md bg-slate-100 p-0.5 border border-slate-200">
+                    <button
+                      onClick={() => setMapEngine('wpgmza')}
+                      className={`px-2 py-0.5 text-[11px] font-mono font-medium rounded transition cursor-pointer ${
+                        mapEngine === 'wpgmza'
+                          ? 'bg-white text-blue-700 shadow-2xs font-bold border border-slate-200'
+                          : 'text-slate-500 hover:text-slate-800'
+                      }`}
+                    >
+                      WP Go Maps
+                    </button>
                     <button
                       onClick={() => setMapEngine('mapbox')}
                       className={`px-2 py-0.5 text-[11px] font-mono font-medium rounded transition cursor-pointer ${
@@ -153,7 +166,18 @@ export default function App() {
               </div>
 
               <div className="h-[520px]">
-                {mapEngine === 'mapbox' ? (
+                {mapEngine === 'wpgmza' ? (
+                  <WPGoMap
+                    modelKey={focusModelKey}
+                    modelLabel={
+                      focusModelKey === 'atmos' ? 'AtmosArbiter Dynamically Blended Output (WP Go Maps)' :
+                      focusModelKey === 'naive' ? 'Naive Arithmetic Mean (WP Go Maps)' :
+                      focusModelKey === 'ncup' ? 'NCUM Physical NWP (WP Go Maps)' : 'GraphCast AI Foundation (WP Go Maps)'
+                    }
+                    scenario={activeScenario}
+                    isMini={false}
+                  />
+                ) : mapEngine === 'mapbox' ? (
                   <MapboxMeteorologicalMap
                     scenario={activeScenario}
                     modelKey={focusModelKey}
