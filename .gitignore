@@ -16,3 +16,8 @@ ENV/
 # Temporary / Scratch
 scratch/
 *.tmp
+
+# Node / React Dashboard
+dashboard/node_modules/
+dashboard/dist/
+
