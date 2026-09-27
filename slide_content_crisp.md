@@ -145,23 +145,23 @@
 
 ## SLIDE 6: RESEARCH & REFERENCES
 
-### 📚 ACADEMIC FOUNDATIONS
-*   **Chen et al. (2024, arXiv:2403.15598):** *Ensemble of Data-Driven Weather Models for Sub-Seasonal Forecasting* — ML ensemble stacking outperforms raw NWP baselines.
-*   **PoET Architecture (2024):** *Post-processing of Ensembles with Transformers* — Validates **ChronoShift** attention-based lead-time weighting.
-*   **Bi et al. (Nature, 2023) / Lam et al. (Science, 2023):** *Pangu-Weather* & *GraphCast* — AI constituent models we integrate as inputs.
-*   **Reichstein et al. (Nature, 2019):** *Deep Learning for Earth System Science* — Physics-constrained ML imperative; basis for **ThermoCheck Gate**.
-*   **Gagne et al. (2020, JAMES):** *ML for Precipitation Nowcasting from Radar* — Asymmetric EVT loss design basis for **PeakGuard Loss**.
+### 📚 ACADEMIC FOUNDATIONS (Peer-Reviewed Literature)
+*   **[Chen et al. (2024, arXiv:2403.15598)](https://arxiv.org/abs/2403.15598):** *Data-Driven Weather Prediction Ensembles* — ML ensemble stacking outperforms raw NWP baselines.
+*   **[Scher & Messori / PoET (2024, arXiv:2303.17195)](https://arxiv.org/abs/2303.17195):** *Hierarchical Ensemble Transformers* — Methodological validation for **ChronoShift** lead-time attention.
+*   **[Lam et al. (Science 2023, DOI: 10.1126/science.adi2336)](https://www.science.org/doi/10.1126/science.adi2336) / [Bi et al. (Nature 2023)](https://www.nature.com/articles/s41586-023-06185-3):** *GraphCast* & *Pangu-Weather* — Foundational AI models integrated as inputs.
+*   **[Reichstein et al. (Nature 2019, DOI: 10.1038/s41586-019-0912-1)](https://www.nature.com/articles/s41586-019-0912-1):** *Deep Learning for Earth System Science* — Physics-constrained ML imperative; basis for **ThermoCheck Gate**.
+*   **[Gagne et al. (JAMES 2020, DOI: 10.1029/2019MS001701)](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2019MS001701):** *ML for Precipitation Nowcasting* — Asymmetric loss formulation for **PeakGuard Loss** (τ=0.98).
 
 ### 🏛️ GOVERNMENT & OPERATIONAL DATA
-*   **NCMRWF:** NCUM (12 km), NEPS-G (23-member ensemble), IMDAA Reanalysis (12 km).
-*   **IMD Pune:** 0.25° Daily Gridded Rainfall/Temperature (1971–present) — primary ground-truth.
-*   **Copernicus ERA5:** Global reanalysis 0.25° (1979–present) — climatological calibration.
+*   **[NCMRWF](https://www.ncmrwf.gov.in/):** NCUM (12 km), NEPS-G (23-member ensemble), IMDAA Regional Reanalysis (12 km).
+*   **[IMD Pune](https://www.imdpune.gov.in/):** 0.25° Daily Gridded Rainfall/Temperature (1971–present) — primary ground-truth.
+*   **[Copernicus ERA5](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels):** Global reanalysis 0.25° (1979–present) — climatological calibration baseline.
 
 ### 📊 SOCIO-ECONOMIC EVIDENCE
-*   **NCAER:** ₹13,331 Cr annual farm income protected by accurate weather advisories.
-*   **CEEW (2023):** 75%+ Indian districts are extreme climate hotspots.
-*   **CSE/DTE (2024):** India: extreme weather on **322 of 366 days** in 2024.
-*   **CERC DSM (2024):** Grid-deviation penalty regulation — direct saving via AtmosArbiter B2B.
+*   **[NCAER Report (MoES)](https://www.ncaer.org/publication/estimating-the-economic-benefits-of-investment-in-monsoon-mission-and-high-performance-computing-facilities):** ₹13,331 Cr annual farm income protected by accurate weather advisories.
+*   **[CEEW (2023)](https://www.ceew.in/publications/mapping-indias-climate-vulnerability-district-level-assessment):** 75%+ Indian districts are extreme climate hotspots.
+*   **[CSE / DTE (2024)](https://www.downtoearth.org.in/extreme-weather):** India: extreme weather on **322 of 366 days** in 2024.
+*   **[CERC DSM (2024)](https://cercind.gov.in/):** Grid-deviation penalty regulation — direct saving via AtmosArbiter B2B.
 
 ### 🔗 PS 26081 TRACEABILITY MATRIX
 | PS 26081 Requirement | AtmosArbiter Module | Method |
@@ -173,6 +173,6 @@
 | Operational latency | **TensorRT FP16 + Triton** | < 45s end-to-end national run |
 
 ### 🏆 NATIONAL & GLOBAL ALIGNMENT
-*   **MoES Mission Mausam (₹2,000 Cr)** — Hyper-local block/panchayat-level forecasting mandate.
-*   **WMO Global Seamless Forecast Initiative** — International multi-model blending standard alignment.
-*   **UN SDG 13, 11, 2** — Climate Action • Resilient Cities • Zero Hunger.
+*   **[MoES Mission Mausam (₹2,000 Cr)](https://pib.gov.in/PressReleaseIframePage.aspx?PRID=2053805)** — Hyper-local block/panchayat-level forecasting mandate.
+*   **[WMO Global Seamless Forecast Initiative](https://wmo.int/)** — International multi-model blending standard alignment.
+*   **[UN SDGs 13, 11, 2](https://sdgs.un.org/goals)** — Climate Action • Resilient Cities • Zero Hunger.
