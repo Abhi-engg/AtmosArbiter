@@ -8,21 +8,20 @@ import CommercialImpactBar from './components/CommercialImpactBar';
 import ThermoCheckModal from './components/ThermoCheckModal';
 import ArchitectureModal from './components/ArchitectureModal';
 import { SCENARIOS, DISTRICT_STATIONS } from './data/meteorologicalData';
-import { BookOpen, Layers, ShieldCheck, Activity, ChevronRight, HelpCircle } from 'lucide-react';
+import { BookOpen, ShieldCheck } from 'lucide-react';
 
 export default function App() {
   const [activeScenario, setActiveScenario] = useState(SCENARIOS[0]);
   const [selectedLeadTime, setSelectedLeadTime] = useState(24);
-  const [viewMode, setViewMode] = useState('quad'); // 'quad' or 'focus'
+  const [viewMode, setViewMode] = useState('quad');
   const [selectedDistrict, setSelectedDistrict] = useState(DISTRICT_STATIONS[0]);
-  const [focusModelKey, setFocusModelKey] = useState('atmos'); // for focus mode layer toggle
+  const [focusModelKey, setFocusModelKey] = useState('atmos');
 
-  // Modals
   const [isThermoCheckOpen, setIsThermoCheckOpen] = useState(false);
   const [isArchitectureOpen, setIsArchitectureOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#070b13] text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-white">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
       
       {/* 1. Global Navigation Bar */}
       <Navbar
@@ -33,55 +32,52 @@ export default function App() {
         onOpenThermoCheck={() => setIsThermoCheckOpen(true)}
       />
 
-      {/* 2. ChronoShift Lead Time Dynamic Scrubber */}
+      {/* 2. ChronoShift Lead Time Scrubber */}
       <LeadTimeBar
         selectedLeadTime={selectedLeadTime}
         setSelectedLeadTime={setSelectedLeadTime}
       />
 
-      {/* 3. Main Dashboard Workspace */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-6 space-y-6">
+      {/* 3. Main Dashboard Content */}
+      <main className="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-6 space-y-4">
         
-        {/* Top Scenario Banner with Live Context & Quick Actions */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
-                ACTIVE HISTORICAL BENCHMARK
-              </span>
-              <span className="text-xs text-slate-400 font-mono">{activeScenario.eventDate}</span>
-            </div>
-            <h2 className="text-lg font-bold text-white mt-1">
-              {activeScenario.title}: {activeScenario.subtitle}
-            </h2>
-            <p className="text-xs text-slate-300 mt-1 max-w-3xl leading-relaxed">
-              {activeScenario.description}
-            </p>
+        {/* Compact Scenario Header Bar */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs">
+          <div className="flex items-center gap-2.5">
+            <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
+              {activeScenario.eventDate}
+            </span>
+            <span className="text-sm font-bold text-slate-900">
+              {activeScenario.title}
+            </span>
+            <span className="hidden md:inline text-xs text-slate-500 font-mono">
+              • Observed Peak: {activeScenario.referenceActual.peakValue} {activeScenario.unit} ({activeScenario.referenceActual.location})
+            </span>
           </div>
 
-          <div className="flex items-center gap-2 self-start md:self-auto shrink-0">
+          <div className="flex items-center gap-2 self-start sm:self-auto shrink-0">
             <button
               onClick={() => setIsArchitectureOpen(true)}
-              className="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium transition cursor-pointer flex items-center gap-1.5 border border-slate-700 shadow-sm"
+              className="px-3 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-medium transition cursor-pointer flex items-center gap-1.5 border border-slate-300"
             >
-              <BookOpen className="w-4 h-4 text-cyan-400" />
-              <span>CTO Two-Tier Architecture</span>
+              <BookOpen className="w-3.5 h-3.5 text-blue-600" />
+              <span>Architecture</span>
             </button>
 
             <button
               onClick={() => setIsThermoCheckOpen(true)}
-              className="px-3.5 py-2 rounded-lg bg-indigo-950 hover:bg-indigo-900 text-indigo-200 text-xs font-medium transition cursor-pointer flex items-center gap-1.5 border border-indigo-700/60 shadow-sm"
+              className="px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-medium transition cursor-pointer flex items-center gap-1.5 border border-emerald-300"
             >
-              <ShieldCheck className="w-4 h-4 text-indigo-400" />
-              <span>Audit Physics</span>
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Physics Audit</span>
             </button>
           </div>
         </div>
 
         {/* Dynamic Display Mode */}
         {viewMode === 'quad' ? (
-          /* QUAD-SYNC VIEW: Displays all 4 models side-by-side */
-          <div className="space-y-6">
+          /* QUAD VIEW: 4 Synchronized Maps */
+          <div className="space-y-4">
             <ModelComparisonQuad
               scenario={activeScenario}
               selectedDistrict={selectedDistrict}
@@ -89,7 +85,6 @@ export default function App() {
               leadTimeHours={selectedLeadTime}
             />
 
-            {/* In-Depth Point Inspector */}
             <ClearCastInspector
               scenario={activeScenario}
               selectedDistrict={selectedDistrict}
@@ -98,28 +93,27 @@ export default function App() {
             />
           </div>
         ) : (
-          /* FOCUS & XAI VIEW: Large interactive map + side inspector */
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          /* FOCUS VIEW: Large Map + Inspector */
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
             
             {/* Left: Large Interactive Map (7 cols) */}
-            <div className="lg:col-span-7 flex flex-col space-y-3">
-              {/* Layer Switcher Buttons for Focus Mode */}
-              <div className="flex items-center justify-between bg-slate-900 p-2 rounded-xl border border-slate-800">
-                <span className="text-xs font-semibold text-slate-400 px-2">Active Map Layer:</span>
+            <div className="lg:col-span-7 flex flex-col space-y-2.5">
+              <div className="flex items-center justify-between bg-white p-2 rounded-xl border border-slate-200 shadow-2xs">
+                <span className="text-xs font-semibold text-slate-500 px-2">Layer:</span>
                 <div className="flex flex-wrap gap-1">
                   {[
-                    { key: 'atmos', label: 'AtmosArbiter Blend', color: 'emerald' },
-                    { key: 'naive', label: 'Naive Average (Flawed)', color: 'rose' },
-                    { key: 'ncup', label: 'Physical NWP', color: 'cyan' },
-                    { key: 'ai', label: 'GraphCast AI', color: 'amber' },
+                    { key: 'atmos', label: 'AtmosArbiter Blend' },
+                    { key: 'naive', label: 'Naive Average' },
+                    { key: 'ncup', label: 'Physical NWP' },
+                    { key: 'ai', label: 'GraphCast AI' },
                   ].map((layer) => (
                     <button
                       key={layer.key}
                       onClick={() => setFocusModelKey(layer.key)}
                       className={`px-3 py-1 text-xs font-medium rounded-lg transition cursor-pointer ${
                         focusModelKey === layer.key
-                          ? 'bg-slate-800 text-white shadow border border-slate-700 font-bold'
-                          : 'text-slate-400 hover:text-slate-200 hover:bg-slate-950'
+                          ? 'bg-blue-600 text-white font-semibold shadow-xs'
+                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                       }`}
                     >
                       {layer.label}
@@ -128,15 +122,14 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Full-Size Canvas Map */}
               <div className="h-[520px]">
                 <MeteorologicalMap
                   scenario={activeScenario}
                   modelKey={focusModelKey}
                   modelLabel={
-                    focusModelKey === 'atmos' ? 'AtmosArbiter Dynamically Arbitrated Output' :
-                    focusModelKey === 'naive' ? 'Naive Arithmetic Average (Spectral Smearing Flaw)' :
-                    focusModelKey === 'ncup' ? 'NCUM 12km Physical NWP Model' : 'GraphCast AI Foundation Model'
+                    focusModelKey === 'atmos' ? 'AtmosArbiter Dynamically Blended Output' :
+                    focusModelKey === 'naive' ? 'Naive Arithmetic Mean' :
+                    focusModelKey === 'ncup' ? 'NCUM Physical NWP' : 'GraphCast AI Foundation'
                   }
                   selectedDistrict={selectedDistrict}
                   onSelectDistrict={setSelectedDistrict}
@@ -146,7 +139,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* Right: Detailed District XAI Inspector (5 cols) */}
+            {/* Right: Point Inspector (5 cols) */}
             <div className="lg:col-span-5">
               <ClearCastInspector
                 scenario={activeScenario}
@@ -159,14 +152,14 @@ export default function App() {
           </div>
         )}
 
-        {/* 4. Commercial Feasibility & Socio-Economic ROI (Slide 5 Master Content) */}
+        {/* 4. Commercial Feasibility & Socio-Economic ROI */}
         <CommercialImpactBar scenario={activeScenario} />
 
       </main>
 
-      {/* Footer */}
-      <footer className="bg-slate-950 border-t border-slate-900 py-4 px-6 text-center text-xs text-slate-500 font-mono mt-8">
-        AtmosArbiter • SIH 2026 Problem Statement ID: 26081 • Ministry of Earth Sciences (MoES) / NCMRWF • Team MidNightCrew
+      {/* Clean Light Footer */}
+      <footer className="bg-white border-t border-slate-200 py-3.5 px-6 text-center text-xs text-slate-400 font-mono mt-6">
+        AtmosArbiter • Ministry of Earth Sciences (MoES) / NCMRWF • Team MidNightCrew
       </footer>
 
       {/* Modals */}
