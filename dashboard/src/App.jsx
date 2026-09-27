@@ -8,7 +8,8 @@ import CommercialImpactBar from './components/CommercialImpactBar';
 import ThermoCheckModal from './components/ThermoCheckModal';
 import ArchitectureModal from './components/ArchitectureModal';
 import { SCENARIOS, DISTRICT_STATIONS } from './data/meteorologicalData';
-import { BookOpen, ShieldCheck, CloudRain, Thermometer, Wind } from 'lucide-react';
+import { BookOpen, ShieldCheck, CloudRain, Thermometer, Wind, Compass } from 'lucide-react';
+
 
 export default function App() {
   const [activeScenario, setActiveScenario] = useState(SCENARIOS[0]);
@@ -84,8 +85,21 @@ export default function App() {
                 <Wind className="w-3.5 h-3.5" />
                 Wind (km/h)
               </button>
+
+              <button
+                onClick={() => setActiveParameter('weights')}
+                className={`px-3 py-1.5 text-xs font-medium rounded-md transition flex items-center gap-1.5 cursor-pointer ${
+                  activeParameter === 'weights'
+                    ? 'bg-indigo-600 text-white font-semibold shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <Compass className="w-3.5 h-3.5" />
+                Weight Maps (W_m)
+              </button>
             </div>
           </div>
+
 
           {/* Quick Architecture and Physics Modals */}
           <div className="flex items-center gap-2 self-start md:self-auto shrink-0">

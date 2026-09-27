@@ -296,7 +296,7 @@ export default function MapboxMeteorologicalMap({
                 <span>48°C+</span>
               </div>
             </div>
-          ) : (
+          ) : activeParameter === 'wind' ? (
             <div>
               <div className="flex h-2.5 rounded overflow-hidden border border-slate-200">
                 <div style={{ width: '20%', backgroundColor: '#93c5fd' }} title="Light (<20)" />
@@ -313,6 +313,21 @@ export default function MapboxMeteorologicalMap({
                 <span>140+</span>
               </div>
             </div>
+          ) : (
+            <div>
+              <div className="flex h-2.5 rounded overflow-hidden border border-slate-200">
+                <div style={{ width: '20%', backgroundColor: '#ea580c' }} title="100% AI Dominant" />
+                <div style={{ width: '20%', backgroundColor: '#f59e0b' }} title="AI Leaning" />
+                <div style={{ width: '20%', backgroundColor: '#10b981' }} title="50-50 Balanced" />
+                <div style={{ width: '20%', backgroundColor: '#06b6d4' }} title="NWP Leaning" />
+                <div style={{ width: '20%', backgroundColor: '#2563eb' }} title="100% NWP Dominant" />
+              </div>
+              <div className="flex justify-between text-[8px] text-slate-500 mt-1 font-mono">
+                <span className="text-amber-600 font-bold">100% AI</span>
+                <span>50-50</span>
+                <span className="text-blue-600 font-bold">100% NWP</span>
+              </div>
+            </div>
           )}
         </div>
       </div>
@@ -320,7 +335,9 @@ export default function MapboxMeteorologicalMap({
       {/* Bottom Summary Bar */}
       <div className="px-3.5 py-1.5 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs font-mono">
         <span className="text-slate-500 text-[11px]">
-          {activeParameter === 'rain' ? 'Peak Rainfall:' : activeParameter === 'temp' ? 'Max Temp Core:' : 'Peak Gale Wind:'}
+          {activeParameter === 'rain' ? 'Peak Rainfall:' : 
+           activeParameter === 'temp' ? 'Max Temp Core:' : 
+           activeParameter === 'wind' ? 'Peak Gale Wind:' : 'Dynamic Model Trust:'}
         </span>
         <span className={`font-semibold ${
           modelKey === 'atmos' ? 'text-emerald-700 font-bold' :
@@ -334,13 +351,18 @@ export default function MapboxMeteorologicalMap({
             modelKey === 'atmos' ? '47.9 °C (Preserved)' :
             modelKey === 'naive' ? '44.9 °C (Diluted)' :
             modelKey === 'ai' ? '43.8 °C (Smoothed)' : '47.1 °C (Physical)'
-          ) : (
+          ) : activeParameter === 'wind' ? (
             modelKey === 'atmos' ? '142 km/h (Preserved)' :
             modelKey === 'naive' ? '100 km/h (Diluted)' :
             modelKey === 'ai' ? '80 km/h (Smoothed)' : '135 km/h (Physical)'
+          ) : (
+            modelKey === 'atmos' ? 'Terrain-Conditioned (W_NWP: 84% / W_AI: 16%)' :
+            modelKey === 'naive' ? 'Static Uniform (50% / 50% Blind Average)' :
+            modelKey === 'ai' ? '100% AI Fixed' : '100% NWP Fixed'
           )}
         </span>
       </div>
+
 
     </div>
   );

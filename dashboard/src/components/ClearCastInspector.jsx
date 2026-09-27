@@ -134,28 +134,46 @@ export default function ClearCastInspector({ scenario, selectedDistrict, onSelec
         </div>
       </div>
 
-      {/* Exceedance Alert Banner */}
-      <div className={`px-3.5 py-2.5 rounded-lg border flex items-center justify-between gap-3 text-xs ${
+      {/* Operational Multi-Horizon Alert Banner (Matches Architecture Diagram) */}
+      <div className={`p-3.5 rounded-lg border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs ${
         isExtremeAlert 
           ? 'bg-rose-50 border-rose-200 text-rose-900'
           : 'bg-emerald-50 border-emerald-200 text-emerald-900'
       }`}>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           {isExtremeAlert ? (
-            <ShieldAlert className="w-4 h-4 text-rose-600 shrink-0" />
+            <ShieldAlert className="w-5 h-5 text-rose-600 shrink-0" />
           ) : (
-            <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+            <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
           )}
-          <span className="font-semibold">
-            {isExtremeAlert ? 'Exceedance Warning:' : 'Nominal Envelope:'}{' '}
-            P({scenario.variable} &gt; {scenario.extremeThreshold} {scenario.unit}) ={' '}
-            <span className="font-mono font-bold">{exceedanceProb}%</span>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-bold">
+                {isExtremeAlert ? 'DISASTER EXCEEDANCE ALERT' : 'NOMINAL ENVELOPE'}
+              </span>
+              <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-semibold ${
+                isExtremeAlert ? 'bg-rose-200 text-rose-900' : 'bg-emerald-200 text-emerald-900'
+              }`}>
+                {leadTimeHours <= 6 ? '0–6h NOWCAST' :
+                 leadTimeHours <= 24 ? '6–24h SHORT-RANGE' :
+                 leadTimeHours <= 72 ? '24–72h EARLY WARNING' : '3–10d OUTLOOK'}
+              </span>
+            </div>
+            <div className="text-[11px] text-slate-600 mt-0.5">
+              P({scenario.variable} &gt; {scenario.extremeThreshold} {scenario.unit}) ={' '}
+              <span className="font-mono font-bold text-slate-900">{exceedanceProb}%</span> • Target Window:{' '}
+              <span className="font-semibold text-blue-700">{currentLead.label}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-[11px] font-mono px-2.5 py-1 rounded bg-white border border-slate-200 text-slate-600 shrink-0">
+          NDRF Staging: <span className={isExtremeAlert ? "text-rose-700 font-bold" : "text-emerald-700 font-bold"}>
+            {isExtremeAlert ? "ACTIVATED" : "STANDBY"}
           </span>
         </div>
-        <span className="font-mono text-[11px] text-slate-500 font-medium">
-          Window: {currentLead.label}
-        </span>
       </div>
+
 
     </div>
   );

@@ -57,6 +57,23 @@ export function getWindColor(value, alpha = 0.85) {
   return [217, 70, 239, Math.floor(alpha * 255)]; // Hurricane force (>120 km/h)
 }
 
+// Spatial Dynamic Weight Map Color Scale: W_NWP vs W_AI (PS 26081 Required Output)
+export function getWeightColor(nwpWeight, alpha = 0.85) {
+  // nwpWeight: 0.0 (100% AI) to 1.0 (100% NWP)
+  if (nwpWeight >= 0.75) {
+    return [37, 99, 235, Math.floor(alpha * 245)]; // Deep Blue (NWP Dominant > 75%)
+  } else if (nwpWeight >= 0.60) {
+    return [6, 182, 212, Math.floor(alpha * 225)]; // Cyan (NWP Leaning 60-75%)
+  } else if (nwpWeight >= 0.45) {
+    return [16, 185, 129, Math.floor(alpha * 215)]; // Emerald (Balanced 45-60%)
+  } else if (nwpWeight >= 0.30) {
+    return [245, 158, 11, Math.floor(alpha * 225)]; // Amber (AI Leaning 30-45%)
+  } else {
+    return [234, 88, 12, Math.floor(alpha * 245)]; // Orange (AI Dominant < 30%)
+  }
+}
+
+
 /**
  * Generates an ImageData canvas for Mapbox canvas/image source covering:
  * Bounds: West 68°E to East 98°E, South 7°N to North 37°N
@@ -196,9 +213,45 @@ export function generateMeteorologicalCanvas(scenarioId, modelKey, activeParamet
 
         const [r, g, b, a] = getWindColor(windSpeed);
         data[idx] = r; data[idx + 1] = g; data[idx + 2] = b; data[idx + 3] = a;
+
+      } else if (activeParameter === 'weights') {
+        // PS 26081 Weight Maps: Spatial dynamic weight tensor W_NWP(x, y)
+        // High relief / complex terrain -> NWP dominant (>75%)
+        // Flat plains / low lead time -> AI dominant (>60%)
+        let nwpWeight = 0.50;
+
+        if (modelKey === 'naive') {
+          // Naive averaging assigns static uniform 0.50 everywhere (THE CORE FLAW)
+          nwpWeight = 0.50;
+        } else if (modelKey === 'ncup') {
+          // NWP self-confidence
+          nwpWeight = 0.88;
+        } else if (modelKey === 'ai') {
+          // AI self-confidence
+          nwpWeight = 0.12;
+        } else {
+          // AtmosArbiter Dynamic TopoWeight Arbitration
+          const isWesternGhats = (lat >= 8.5 && lat <= 19.8 && lng >= 73.0 && lng <= 77.5);
+          const isHimalayas = (lat >= 29.0 && insideIndia);
+          const isKhasiHills = (lat >= 24.5 && lat <= 26.8 && lng >= 89.8 && lng <= 93.5);
+          const isCoastalKutch = (lat >= 22.0 && lat <= 24.5 && lng >= 68.5 && lng <= 71.5);
+
+          if (isWesternGhats || isHimalayas || isKhasiHills) {
+            nwpWeight = 0.84; // Mountain convection priority
+          } else if (isCoastalKutch && scenarioId === 'biparjoy_2023') {
+            nwpWeight = 0.80; // Coastal cyclone pressure gradient priority
+          } else {
+            // Flat plains: AI model handles synoptic flow with higher skill
+            nwpWeight = 0.32;
+          }
+        }
+
+        const [r, g, b, a] = getWeightColor(nwpWeight);
+        data[idx] = r; data[idx + 1] = g; data[idx + 2] = b; data[idx + 3] = insideIndia ? a : Math.floor(a * 0.35);
       }
     }
   }
+
 
   ctx.putImageData(imgData, 0, 0);
   return canvas;
