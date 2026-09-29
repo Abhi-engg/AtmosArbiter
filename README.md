@@ -43,6 +43,7 @@ AtmosArbiter is engineered with a **Two-Tier Strategy**:
 
 | File | Description |
 | :--- | :--- |
+| **[`RESEARCH_AND_REFERENCES.md`](RESEARCH_AND_REFERENCES.md)** | **Master Scientific Compendium:** Complete peer-reviewed literature, MoES/WMO citations, mathematical formulations, and operational data sources. |
 | **[`FULL_PROJECT_CONTEXT.md`](FULL_PROJECT_CONTEXT.md)** | **Single Source of Truth:** Full project context, research synthesis, mathematical foundations, and viva defense strategies. |
 | **[`slide_content_crisp.md`](slide_content_crisp.md)** | Copy-paste ready, concise bullets formatted for presentation slides (Slides 1–6). |
 | **[`SIH_Presentation_Deck.md`](SIH_Presentation_Deck.md)** | Comprehensive master presentation deck with complete narrative prose, citations, and Mermaid Mind Map. |

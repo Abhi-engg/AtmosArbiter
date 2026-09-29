@@ -16,8 +16,13 @@ ENV/
 # Temporary / Scratch
 scratch/
 *.tmp
+.chrome_tmp/
+.agents/
 
-# Node / React Dashboard
+# Node / React Dashboard & Client
 dashboard/node_modules/
 dashboard/dist/
-
+client/node_modules/
+client/dist/
+node_modules/
+dist/

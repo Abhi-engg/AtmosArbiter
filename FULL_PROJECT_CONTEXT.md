@@ -250,14 +250,15 @@ All operational files and slide assets are maintained in `D:\SIH\`:
 
 ```
 D:\SIH\
-├── FULL_PROJECT_CONTEXT.md          <-- [THIS MASTER DOCUMENT: Single Source of Truth]
-├── slide_content_crisp.md           <-- Copy-paste ready, concise bullets for PPT slides (1–6)
-├── SIH_Presentation_Deck.md         <-- In-depth master presentation deck with complete prose & citations
-├── System_Architecture_Diagram.md   <-- Full 8-layer Mermaid system architecture code & explanation
-├── CTO_Architecture_Review.md       <-- Complete 25-section CTO audit based on agent.md framework
-├── context.md                       <-- Core research synthesis, innovative concepts, and PS breakdown
-├── PS_26081_Research_and_Pitch.md   <-- Initial problem statement analysis & literature grounding
-└── Refined_Pitch_Narrative.md       <-- Narrative pitch script & presentation flow
+├── RESEARCH_AND_REFERENCES.md   <-- [NEW: Master Scientific Compendium & Peer-Reviewed References]
+├── FULL_PROJECT_CONTEXT.md      <-- [THIS MASTER DOCUMENT: Single Source of Truth]
+├── slide_content_crisp.md       <-- Copy-paste ready, concise bullets for PPT slides (1–6)
+├── SIH_Presentation_Deck.md     <-- In-depth master presentation deck with complete prose & citations
+├── System_Architecture_Diagram.md <-- Full 8-layer Mermaid system architecture code & explanation
+├── CTO_Architecture_Review.md   <-- Complete 25-section CTO audit based on agent.md framework
+├── context.md                   <-- Core research synthesis, innovative concepts, and PS breakdown
+├── PS_26081_Research_and_Pitch.md <-- Initial problem statement analysis & literature grounding
+└── Refined_Pitch_Narrative.md   <-- Narrative pitch script & presentation flow
 ```
 
 ---

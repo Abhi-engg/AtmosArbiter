@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AtmosArbiter — Research and References (Slide 6)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #0b0f19;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 20px;
+    }
+
+    /* 16:9 Presentation Slide Canvas */
+    .slide-canvas {
+      width: 1280px;
+      height: 720px;
+      background: #ffffff;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding: 24px 36px 20px 36px;
+    }
+
+    /* Header Banner */
+    .slide-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .team-badge {
+      display: inline-flex;
+      align-items: center;
+      border: 2px solid #1e293b;
+      border-radius: 24px;
+      padding: 4px 16px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.3px;
+    }
+
+    .slide-title {
+      font-family: 'Cinzel', 'Times New Roman', serif;
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #0f172a;
+      text-transform: uppercase;
+    }
+
+    .sih-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sih-icon {
+      width: 38px;
+      height: 38px;
+    }
+
+    .sih-text {
+      text-align: right;
+      line-height: 1.1;
+    }
+
+    .sih-text .main {
+      font-size: 11px;
+      font-weight: 800;
+      color: #1e3a8a;
+      letter-spacing: 0.5px;
+    }
+
+    .sih-text .sub {
+      font-size: 14px;
+      font-weight: 900;
+      color: #2563eb;
+    }
+
+    /* Main Content Layout (2 Columns) */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 24px;
+      flex: 1;
+      height: calc(100% - 64px);
+    }
+
+    /* Left Column: Papers List */
+    .left-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-right: 8px;
+    }
+
+    .section-headline {
+      font-size: 18px;
+      font-weight: 800;
+      color: #ea580c; /* Coral/Orange header like in photo */
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .papers-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .paper-item {
+      font-size: 11.5px;
+      line-height: 1.35;
+      color: #334155;
+    }
+
+    .paper-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #0284c7; /* Blue underlined title like in photo */
+      text-decoration: underline;
+      display: block;
+      margin-bottom: 1px;
+    }
+
+    .paper-meta {
+      font-weight: 600;
+      color: #475569;
+      font-size: 11px;
+    }
+
+    .paper-desc {
+      color: #1e293b;
+      margin-top: 1px;
+    }
+
+    .paper-desc strong {
+      color: #0f172a;
+    }
+
+    /* Right Column: Grounding Box + SDGs */
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .grounding-box {
+      border: 2px solid #8b5cf6; /* Purple border from photo */
+      border-radius: 6px;
+      padding: 10px 12px;
+      background: #faf5ff08;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .box-title {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.2px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #f3e8ff;
+      padding-bottom: 4px;
+    }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 12px 16px;
+      flex: 1;
+    }
+
+    .chart-panel {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chart-header {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #1e293b;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    /* Chart 1: Bar Chart */
+    .bar-chart-container {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 20px;
+      height: 90px;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 4px;
+      position: relative;
+    }
+
+    .y-axis-labels {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-size: 8px;
+      color: #64748b;
+    }
+
+    .bar-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 48px;
+    }
+
+    .bar-val {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: #0369a1;
+      margin-bottom: 2px;
+    }
+
+    .bar-fill {
+      width: 42px;
+      background: #0284c7;
+      border-radius: 2px 2px 0 0;
+      transition: height 0.5s ease;
+    }
+
+    .bar-label {
+      font-size: 8px;
+      color: #475569;
+      text-align: center;
+      margin-top: 3px;
+      line-height: 1.1;
+    }
+
+    /* Chart 2: Resolution Bridge Horizontal Bars */
+    .hbar-container {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      justify-content: center;
+      height: 90px;
+    }
+
+    .hbar-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 8px;
+    }
+
+    .hbar-name {
+      width: 72px;
+      text-align: right;
+      color: #475569;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .hbar-track {
+      flex: 1;
+      background: #f1f5f9;
+      height: 12px;
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hbar-bar {
+      height: 100%;
+      background: #0284c7;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 4px;
+      color: #ffffff;
+      font-size: 8px;
+      font-weight: 700;
+    }
+
+    .hbar-bar.highlight {
+      background: #7c3aed;
+    }
+
+    /* Chart 3: Medium-Range Horizon Timeline */
+    .timeline-container {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      justify-content: center;
+      height: 90px;
+      padding-top: 4px;
+    }
+
+    .timeline-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 8.5px;
+    }
+
+    .timeline-name {
+      width: 60px;
+      text-align: right;
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .timeline-bar-wrap {
+      flex: 1;
+      position: relative;
+      height: 10px;
+      background: #f8fafc;
+      border-radius: 2px;
+    }
+
+    .timeline-segment {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      background: #0284c7;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 4px;
+      color: white;
+      font-size: 7.5px;
+      font-weight: 700;
+    }
+
+    .timeline-segment.alert {
+      background: #ea580c;
+    }
+
+    .timeline-axis {
+      display: flex;
+      justify-content: space-between;
+      font-size: 7.5px;
+      color: #94a3b8;
+      padding-left: 68px;
+      margin-top: 2px;
+    }
+
+    /* Chart 4: Research -> Architecture Matrix */
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 7.5px;
+      text-align: center;
+      height: 90px;
+    }
+
+    .matrix-table th {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 3px 2px;
+      font-weight: 700;
+      border: 1px solid #334155;
+    }
+
+    .matrix-table td {
+      border: 1px solid #334155;
+      padding: 3px 2px;
+      background: #1e1b4b; /* Dark purple matching photo */
+      color: #94a3b8;
+    }
+
+    .matrix-table td.row-header {
+      background: #0f172a;
+      color: #f1f5f9;
+      font-weight: 600;
+      text-align: left;
+      padding-left: 4px;
+      white-space: nowrap;
+    }
+
+    .matrix-table td.active {
+      background: #facc15; /* Bright yellow box like in photo */
+      color: #0f172a;
+      font-weight: 900;
+      font-size: 9px;
+    }
+
+    /* Bottom SDG Row */
+    .sdg-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      padding-top: 4px;
+    }
+
+    .sdg-badge {
+      width: 68px;
+      height: 68px;
+      border-radius: 4px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 5px;
+      font-size: 7px;
+      font-weight: 800;
+      line-height: 1.1;
+      justify-content: space-between;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
+    .sdg-badge .num {
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .sdg-badge .icon-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+    }
+
+    .sdg-13 { background: #3f7e44; }
+    .sdg-11 { background: #f99d26; }
+    .sdg-9  { background: #f36e25; }
+    .sdg-6  { background: #26bde2; }
+
+    /* Action bar */
+    .controls {
+      margin-top: 16px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+
+    .btn:hover {
+      background: #1d4ed8;
+    }
+
+    .btn-secondary {
+      background: #334155;
+    }
+
+    .btn-secondary:hover {
+      background: #1e293b;
+    }
+
+    @media print {
+      body {
+        background: transparent;
+        padding: 0;
+      }
+      .controls {
+        display: none;
+      }
+      .slide-canvas {
+        box-shadow: none;
+        border-radius: 0;
+        width: 100%;
+        height: 100vh;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 16:9 Slide Canvas -->
+  <div class="slide-canvas" id="slideCanvas">
+
+    <!-- Header Banner -->
+    <header class="slide-header">
+      <div class="team-badge">(MidNightCrew)</div>
+      <h1 class="slide-title">RESEARCH AND REFERENCES</h1>
+      <div class="sih-badge">
+        <svg class="sih-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="45" stroke="#f97316" stroke-width="6"/>
+          <path d="M35 50L45 60L65 40" stroke="#16a34a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M50 20V30M50 70V80M20 50H30M70 50H80" stroke="#0284c7" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+        <div class="sih-text">
+          <div class="main">SMART INDIA</div>
+          <div class="sub">HACKATHON 2026</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main 2-Column Content Grid -->
+    <main class="content-grid">
+
+      <!-- LEFT COLUMN: 5 Papers / Sources -->
+      <section class="left-col">
+        <h2 class="section-headline">Papers / Sources Referred for Developing Solution</h2>
+
+        <div class="papers-list">
+
+          <!-- Paper 1: GraphCast -->
+          <article class="paper-item">
+            <a class="paper-title" href="https://doi.org/10.1126/science.adi2336" target="_blank">
+              1) GraphCast – Learning Skillful Medium-Range Global Weather Forecasting
+            </a>
+            <div class="paper-meta">Lam et al., Science, 2023 (Google DeepMind)</div>
+            <div class="paper-desc">
+              <strong>Used for:</strong> Primary AI constituent model input for synoptic steering & medium-range trajectory modelling on spherical multiscale graph mesh (<60s latency).
+            </div>
+          </article>
+
+          <!-- Paper 2: Weyn MME Stacking -->
+          <article class="paper-item">
+            <a class="paper-title" href="https://arxiv.org/abs/2403.15598" target="_blank">
+              2) Data-Driven Weather Ensembling & Meta-Model Stacking
+            </a>
+            <div class="paper-meta">Weyn et al., arXiv:2403.15598, 2024 (Microsoft Weather AI)</div>
+            <div class="paper-desc">
+              <strong>Used for:</strong> Core scientific proof that multi-model ML stacking beats raw physical NWPs by <strong>4%–17% RMSE</strong>, replacing blind ensemble averaging with dynamic weights.
+            </div>
+          </article>
+
+          <!-- Paper 3: PoET Lead Time Attention -->
+          <article class="paper-item">
+            <a class="paper-title" href="https://arxiv.org/abs/2303.17195" target="_blank">
+              3) PoET – Post-processing of Ensembles with Transformers
+            </a>
+            <div class="paper-meta">Dramsch et al. / ECMWF Lab, arXiv:2303.17195, 2023–2024</div>
+            <div class="paper-desc">
+              <strong>Used for:</strong> Methodological anchor for <strong>ChronoShift Layer</strong> — cross-attention dynamically shifting trust from short-range AI (D1–2) to physical NWPs at medium range (D5–10).
+            </div>
+          </article>
+
+          <!-- Paper 4: Physics-Informed ML & Extreme Loss -->
+          <article class="paper-item">
+            <a class="paper-title" href="https://doi.org/10.1038/s41586-019-0912-1" target="_blank">
+              4) Physics-Informed ML & Asymmetric Extreme Quantile Loss
+            </a>
+            <div class="paper-meta">Reichstein et al., Nature, 2019; Gagne et al., JAMES, 2020; Koenker, 1978</div>
+            <div class="paper-desc">
+              <strong>Used for:</strong> Formulating <strong>PeakGuard Loss</strong> (pinball loss &tau;=0.98 penalizing under-prediction 10&times; more to retain &gt;65mm flood peaks) and <strong>ThermoCheck Gate</strong>.
+            </div>
+          </article>
+
+          <!-- Paper 5: NCMRWF & IMD Datasets -->
+          <article class="paper-item">
+            <a class="paper-title" href="https://doi.org/10.54302/mausam.v65i1.851" target="_blank">
+              5) NCMRWF Operational Forecasts & IMD High-Resolution Observations
+            </a>
+            <div class="paper-meta">Rajagopal et al., 2020; Pai et al., Mausam, 2014; Srivastava et al., 2009</div>
+            <div class="paper-desc">
+              <strong>Used for:</strong> Operational 12 km dynamical input (NCUM), 23-member uncertainty spread (NEPS-G), and IMD 0.25&deg; gridded ground-truth verification archives.
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: AtmosArbiter Grounding Box + SDGs -->
+      <section class="right-col">
+
+        <!-- Bordered Box -->
+        <div class="grounding-box">
+          <h3 class="box-title">AtmosArbiter — Research Grounding & Validation Context</h3>
+
+          <div class="charts-grid">
+
+            <!-- Chart 1: Published AI Precedent -->
+            <div class="chart-panel">
+              <div class="chart-header">Published AI & MME Precedent</div>
+              <div class="bar-chart-container">
+                <div class="y-axis-labels">
+                  <span>100%</span>
+                  <span>50%</span>
+                  <span>0%</span>
+                </div>
+                <!-- Bar 1 -->
+                <div class="bar-group">
+                  <span class="bar-val">89.3%</span>
+                  <div class="bar-fill" style="height: 72px;"></div>
+                  <span class="bar-label">GraphCast<br>vs HRES</span>
+                </div>
+                <!-- Bar 2 -->
+                <div class="bar-group">
+                  <span class="bar-val">97.2%</span>
+                  <div class="bar-fill" style="height: 78px; background: #0284c7;"></div>
+                  <span class="bar-label">MME Stack<br>vs NWP</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chart 2: Resolution Bridge -->
+            <div class="chart-panel">
+              <div class="chart-header">Resolution & Grid Alignment Bridge</div>
+              <div class="hbar-container">
+                <div class="hbar-row">
+                  <span class="hbar-name">ERA5 (Global)</span>
+                  <div class="hbar-track">
+                    <div class="hbar-bar" style="width: 100%;">31 km</div>
+                  </div>
+                </div>
+                <div class="hbar-row">
+                  <span class="hbar-name">GFS (NCEP)</span>
+                  <div class="hbar-track">
+                    <div class="hbar-bar" style="width: 80%;">25 km</div>
+                  </div>
+                </div>
+                <div class="hbar-row">
+                  <span class="hbar-name">NCUM / IMDAA</span>
+                  <div class="hbar-track">
+                    <div class="hbar-bar" style="width: 38%;">12 km</div>
+                  </div>
+                </div>
+                <div class="hbar-row">
+                  <span class="hbar-name">AtmosArbiter</span>
+                  <div class="hbar-track">
+                    <div class="hbar-bar highlight" style="width: 80%;">0.25° + DEM</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chart 3: Medium-Range Horizon -->
+            <div class="chart-panel">
+              <div class="chart-header">Forecast Horizon & Lead-Time Trust</div>
+              <div class="timeline-container">
+                <div class="timeline-row">
+                  <span class="timeline-name">GraphCast</span>
+                  <div class="timeline-bar-wrap">
+                    <div class="timeline-segment" style="left: 0%; width: 25%; background: #0284c7;">1-3 d (AI)</div>
+                  </div>
+                </div>
+                <div class="timeline-row">
+                  <span class="timeline-name">NCUM Phys</span>
+                  <div class="timeline-bar-wrap">
+                    <div class="timeline-segment" style="left: 35%; width: 65%; background: #0369a1;">5-10 d (NWP)</div>
+                  </div>
+                </div>
+                <div class="timeline-row">
+                  <span class="timeline-name">NEPS-G</span>
+                  <div class="timeline-bar-wrap">
+                    <div class="timeline-segment" style="left: 0%; width: 100%; background: #0f766e;">10 d Ensembles</div>
+                  </div>
+                </div>
+                <div class="timeline-row">
+                  <span class="timeline-name">Alert Lead</span>
+                  <div class="timeline-bar-wrap">
+                    <div class="timeline-segment alert" style="left: 20%; width: 30%;">48-72h Lead</div>
+                  </div>
+                </div>
+              </div>
+              <div class="timeline-axis">
+                <span>0d</span>
+                <span>2d</span>
+                <span>4d</span>
+                <span>6d</span>
+                <span>8d</span>
+                <span>10d</span>
+              </div>
+            </div>
+
+            <!-- Chart 4: Research -> Architecture Matrix -->
+            <div class="chart-panel">
+              <div class="chart-header">Research &rarr; AtmosArbiter Architecture</div>
+              <table class="matrix-table">
+                <thead>
+                  <tr>
+                    <th style="width: 28%;">Research</th>
+                    <th>Topo U-Net</th>
+                    <th>Chrono Attn</th>
+                    <th>Tail Loss</th>
+                    <th>Physics Gate</th>
+                    <th>Data Feed</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="row-header">GraphCast</td>
+                    <td>-</td>
+                    <td class="active">&check;</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td class="active">&check;</td>
+                  </tr>
+                  <tr>
+                    <td class="row-header">Weyn MME</td>
+                    <td>-</td>
+                    <td class="active">&check;</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td class="active">&check;</td>
+                  </tr>
+                  <tr>
+                    <td class="row-header">PoET Attn</td>
+                    <td class="active">&check;</td>
+                    <td class="active">&check;</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td class="row-header">Reichstein</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td class="active">&check;</td>
+                    <td class="active">&check;</td>
+                    <td>-</td>
+                  </tr>
+                  <tr>
+                    <td class="row-header">NCMRWF/IMD</td>
+                    <td class="active">&check;</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td class="active">&check;</td>
+                    <td class="active">&check;</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 4 UN SDG Badges -->
+        <footer class="sdg-row">
+          <!-- SDG 13 -->
+          <div class="sdg-badge sdg-13">
+            <span class="num">13</span>
+            <div class="icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                <path d="M2 12h20"/>
+              </svg>
+            </div>
+            <span>CLIMATE<br>ACTION</span>
+          </div>
+
+          <!-- SDG 11 -->
+          <div class="sdg-badge sdg-11">
+            <span class="num">11</span>
+            <div class="icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="4" y="2" width="16" height="20" rx="2"/>
+                <path d="M9 22v-4h6v4M8 6h.01M16 6h.01M8 10h.01M16 10h.01M8 14h.01M16 14h.01"/>
+              </svg>
+            </div>
+            <span>SUSTAINABLE CITIES<br>& COMMUNITIES</span>
+          </div>
+
+          <!-- SDG 9 -->
+          <div class="sdg-badge sdg-9">
+            <span class="num">9</span>
+            <div class="icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m21.12 6.4-6.05-4.06a2 2 0 0 0-2.17-.05L2.95 8.41a2 2 0 0 0-.95 1.7v5.78a2 2 0 0 0 .95 1.7l9.95 6.12a2 2 0 0 0 2.17-.05l6.05-4.06a2 2 0 0 0 .93-1.65v-9.9a2 2 0 0 0-.93-1.65z"/>
+              </svg>
+            </div>
+            <span>INDUSTRY &<br>INFRASTRUCTURE</span>
+          </div>
+
+          <!-- SDG 6 -->
+          <div class="sdg-badge sdg-6">
+            <span class="num">6</span>
+            <div class="icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+              </svg>
+            </div>
+            <span>CLEAN WATER<br>& SANITATION</span>
+          </div>
+        </footer>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Interactive Controls -->
+  <div class="controls">
+    <button class="btn" onclick="window.print()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+        <rect x="6" y="14" width="12" height="8"></rect>
+      </svg>
+      Print / Export PDF
+    </button>
+    <button class="btn btn-secondary" onclick="copyContent()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+      </svg>
+      Copy All Slide Text
+    </button>
+  </div>
+
+  <script>
+    function copyContent() {
+      const text = `RESEARCH AND REFERENCES (Slide 6) - AtmosArbiter (PS 26081)
+
+Papers / Sources Referred for Developing Solution:
+1) GraphCast – Learning Skillful Medium-Range Global Weather Forecasting (Lam et al., Science, 2023)
+Used for: Primary AI constituent model input for synoptic steering & medium-range trajectory modelling on spherical multiscale graph mesh (<60s latency).
+
+2) Data-Driven Weather Ensembling & Meta-Model Stacking (Weyn et al., arXiv:2403.15598, 2024)
+Used for: Core scientific proof that multi-model ML stacking beats raw physical NWPs by 4%–17% RMSE, replacing blind ensemble averaging with dynamic weights.
+
+3) PoET – Post-processing of Ensembles with Transformers (Dramsch et al. / ECMWF Lab, arXiv:2303.17195, 2023–2024)
+Used for: Methodological anchor for ChronoShift Layer — cross-attention dynamically shifting trust from short-range AI (D1–2) to physical NWPs at medium range (D5–10).
+
+4) Physics-Informed ML & Asymmetric Extreme Quantile Loss (Reichstein et al., Nature, 2019; Gagne et al., JAMES, 2020; Koenker, 1978)
+Used for: Formulating PeakGuard Loss (pinball loss tau=0.98 penalizing under-prediction 10x more to retain >65mm flood peaks) and ThermoCheck Gate.
+
+5) NCMRWF Operational Forecasts & IMD High-Resolution Observations (Rajagopal et al., 2020; Pai et al., Mausam, 2014; Srivastava et al., 2009)
+Used for: Operational 12 km dynamical input (NCUM), 23-member uncertainty spread (NEPS-G), and IMD 0.25° gridded ground-truth verification archives.
+
+AtmosArbiter — Research Grounding & Validation Context:
+- Published AI Precedent: GraphCast vs HRES 89.3%, MME Stacking vs NWP 97.2%
+- Resolution Bridge: ERA5 31km, GFS 25km, NCUM 12km -> AtmosArbiter 0.25° + DEM Priors
+- Medium-Range Horizon: GraphCast 1-3d (AI Dominant), NCUM 5-10d (NWP Dominant), Alert Lead 48-72h
+- Research -> Architecture Matrix: TopoWeight (Spatial U-Net), ChronoShift (Attention), PeakGuard (Tail Loss tau=0.98), ThermoCheck (Physics Gate), Data Feeds (NCUM/IMD)
+- UN SDGs: SDG 13 (Climate Action), SDG 11 (Sustainable Cities), SDG 9 (Infrastructure), SDG 6 (Clean Water)`;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Slide text copied to clipboard!");
+      });
+    }
+  </script>
+
+</body>
+</html>
